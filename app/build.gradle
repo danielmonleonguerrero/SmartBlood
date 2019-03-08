@@ -22,7 +22,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    implementation ('pl.rafman.widgets:scroll-calendar:2.1.0') {
+    implementation('pl.rafman.widgets:scroll-calendar:2.1.0') {
         exclude group: 'com.android.support'
     }
     testImplementation 'junit:junit:4.12'
