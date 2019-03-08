@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="?android:listPreferredItemHeight">
+
+    <TextView
+        android:id="@+id/nivelGlucosaView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="120" />
+
+    <TextView
+        android:id="@+id/mgdlView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:text="mg/dl"
+        android:textSize="24sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/nivelGlucosaView"
+        app:layout_constraintStart_toEndOf="@+id/nivelGlucosaView" />
+
+    <TextView
+        android:id="@+id/minView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="30" />
+
+    <TextView
+        android:id="@+id/horaminView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="2dp"
+        android:layout_marginRight="2dp"
+        android:text=":"
+        app:layout_constraintBaseline_toBaselineOf="@+id/minView"
+        app:layout_constraintEnd_toStartOf="@+id/minView" />
+
+    <TextView
+        android:id="@+id/horaView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBaseline_toBaselineOf="@+id/horaminView"
+        app:layout_constraintEnd_toStartOf="@+id/horaminView"
+        tools:text="10" />
+
+    <TextView
+        android:id="@+id/nota1View"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/horaminView"
+        tools:text="Antes de comer" />
+
+    <TextView
+        android:id="@+id/nota2View"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nota1View"
+        tools:text="Mucho ejercicio" />
+</android.support.constraint.ConstraintLayout>

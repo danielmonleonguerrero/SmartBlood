@@ -1,6 +1,8 @@
 package com.example.dani.smartblood;
 
-public class Analisis {
+import java.io.Serializable;
+
+public class Analisis implements Serializable {
     public int getHoramin() {
         return horamin;
     }

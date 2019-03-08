@@ -3,6 +3,7 @@ package com.example.dani.smartblood;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -53,10 +54,8 @@ public class CalendarActivity extends AppCompatActivity {
                         analisis.add(new Analisis(1240, 100, "Nota1", "Nota2")); //Se añade un nuevo objeto analisis y se rellena
                         ArrayDiaAnalisis.get(i).setArrayAnalisi(analisis);  //Devolvemos el array de los analisis con un analisis mas
                         Intent intent = new Intent(CalendarActivity.this, ResumenAnalisisActivity.class);
-                        intent.putExtra("dia", day);
-                        intent.putExtra("mes", month);
-                        intent.putExtra("anyo", year);
-                        intent.putExtra("num", ArrayDiaAnalisis.get(i).getArrayAnalisi().size());
+                        intent.putExtra("DiaAnalisis", ArrayDiaAnalisis.get(i));
+                        Log.e("SMARTBLOOD", Integer.toString(i));
                         startActivityForResult(intent, VIEW_ANALISIS);
                     }
                 }
@@ -65,10 +64,7 @@ public class CalendarActivity extends AppCompatActivity {
                     ArrayList<Analisis> ArrayAnalisis = new ArrayList<>();
                     ArrayDiaAnalisis.add(new DiaAnalisis(day, month, year, 100, ArrayAnalisis));
                     Intent intent = new Intent(CalendarActivity.this, ResumenAnalisisActivity.class);
-                    intent.putExtra("dia", day);
-                    intent.putExtra("mes", month);
-                    intent.putExtra("anyo", year);
-                    intent.putExtra("num", 1);
+                    intent.putExtra("DiaAnalisis", ArrayDiaAnalisis.get((ArrayDiaAnalisis.size())-1));
                     startActivityForResult(intent, VIEW_ANALISIS);
                 }
             }

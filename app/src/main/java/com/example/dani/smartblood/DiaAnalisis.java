@@ -1,8 +1,9 @@
 package com.example.dani.smartblood;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class DiaAnalisis {
+public class DiaAnalisis implements Serializable {
     public DiaAnalisis(int dia, int mes, int anyo, int mediaDiariaGlucosa, ArrayList<Analisis> arrayAnalisi ) {
         this.dia = dia;
         this.mes = mes;

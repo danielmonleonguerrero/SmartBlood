@@ -76,19 +76,4 @@
         app:layout_constraintTop_toBottomOf="@+id/mesView"
         app:srcCompat="@android:color/background_dark" />
 
-    <TextView
-        android:id="@+id/numAnalisisView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:text="TextView"
-        android:textSize="32sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lineaView"
-        tools:text="5" />
 </android.support.constraint.ConstraintLayout>
