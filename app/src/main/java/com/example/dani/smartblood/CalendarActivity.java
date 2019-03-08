@@ -4,6 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import pl.rafman.scrollcalendar.ScrollCalendar;
 import pl.rafman.scrollcalendar.contract.DateWatcher;
 import pl.rafman.scrollcalendar.contract.MonthScrollListener;
@@ -15,6 +17,7 @@ public class CalendarActivity extends AppCompatActivity {
 
     int dia=0, mes=0, año=0;
     ScrollCalendar scrollcalendar;
+    ArrayList<DiaAnalisis> ArrayDiaAnalisis = new ArrayList<>(50);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +42,7 @@ public class CalendarActivity extends AppCompatActivity {
         scrollcalendar.setOnDateClickListener(new OnDateClickListener() {
             @Override
             public void onCalendarDayClicked(int year, int month, int day) {
-                Toast.makeText(CalendarActivity.this, day+"/"+month+"/"+year, Toast.LENGTH_SHORT).show();
-                dia=day;
-                mes=month;
-                año=year;
+                ArrayDiaAnalisis.add(new DiaAnalisis(day, month, year, 100, new Analisis(1340, 100, "Antes de comer", "Mucho ejercicio") ));
             }
         });
 
@@ -50,9 +50,18 @@ public class CalendarActivity extends AppCompatActivity {
             @State
             @Override
             public int getStateForDate(int year, int month, int day) {
-                if(dia==day && mes==month && año==year) return CalendarDay.TODAY;
+                if(isSelected(year,month,day)) return CalendarDay.TODAY;
                 else return CalendarDay.DEFAULT;
             }
         });
+    }
+
+    private boolean isSelected(int year, int month, int day) {
+        for(int i=0; i<ArrayDiaAnalisis.size(); i++){
+            if(year==ArrayDiaAnalisis.get(i).getAnyo() && month==ArrayDiaAnalisis.get(i).getMes() && day==ArrayDiaAnalisis.get(i).getDia()){
+                return(true);
+            }
+        }
+        return(false);
     }
 }
