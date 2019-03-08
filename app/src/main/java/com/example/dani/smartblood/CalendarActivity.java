@@ -3,7 +3,6 @@ package com.example.dani.smartblood;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -17,7 +16,6 @@ import pl.rafman.scrollcalendar.data.CalendarDay;
 public class CalendarActivity extends AppCompatActivity {
 
     private static final int VIEW_ANALISIS=1;
-    int dia=0, mes=0, año=0;
     ScrollCalendar scrollcalendar;
     ArrayList<DiaAnalisis> ArrayDiaAnalisis = new ArrayList<>(50);
 
@@ -44,17 +42,34 @@ public class CalendarActivity extends AppCompatActivity {
         scrollcalendar.setOnDateClickListener(new OnDateClickListener() {
             @Override
             public void onCalendarDayClicked(int year, int month, int day) {
-                //En la aplicacion final, no se crea aqui el analisis. Es una version de prueba
-                ArrayDiaAnalisis.add(new DiaAnalisis(day, month, year, 100, new Analisis(1340, 100, "Antes de comer", "Mucho ejercicio") ));
-                //En la aplicacion final, no sabemos en que posicion del array esta el analisis del dia clicado, asi que tenemos que buscarlo
+                boolean nuevoDiaAnalisis=true;
+               //Buscamos si existe un Analisis con el dia seleccionado
                 for(int i=0; i<ArrayDiaAnalisis.size(); i++){
                     if(year==ArrayDiaAnalisis.get(i).getAnyo() && month==ArrayDiaAnalisis.get(i).getMes() && day==ArrayDiaAnalisis.get(i).getDia()){
+                        //Si hay un Analisis en el dia seleccionado, se introduce un nuevo Analisis
+                        nuevoDiaAnalisis=false;
+                        ArrayList<Analisis> analisis;
+                        analisis=ArrayDiaAnalisis.get(i).getArrayAnalisi(); //Se coge el array de los analisis actual
+                        analisis.add(new Analisis(1240, 100, "Nota1", "Nota2")); //Se añade un nuevo objeto analisis y se rellena
+                        ArrayDiaAnalisis.get(i).setArrayAnalisi(analisis);  //Devolvemos el array de los analisis con un analisis mas
                         Intent intent = new Intent(CalendarActivity.this, ResumenAnalisisActivity.class);
                         intent.putExtra("dia", day);
                         intent.putExtra("mes", month);
                         intent.putExtra("anyo", year);
+                        intent.putExtra("num", ArrayDiaAnalisis.get(i).getArrayAnalisi().size());
                         startActivityForResult(intent, VIEW_ANALISIS);
                     }
+                }
+                if(nuevoDiaAnalisis){
+                    //Si no existe un Analisis en el dia seleccionado, se crea uno. Tambien se crea un array de analisis para introducirlo en el array de diaanalisis
+                    ArrayList<Analisis> ArrayAnalisis = new ArrayList<>();
+                    ArrayDiaAnalisis.add(new DiaAnalisis(day, month, year, 100, ArrayAnalisis));
+                    Intent intent = new Intent(CalendarActivity.this, ResumenAnalisisActivity.class);
+                    intent.putExtra("dia", day);
+                    intent.putExtra("mes", month);
+                    intent.putExtra("anyo", year);
+                    intent.putExtra("num", 1);
+                    startActivityForResult(intent, VIEW_ANALISIS);
                 }
             }
         });
