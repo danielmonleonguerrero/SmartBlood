@@ -19,6 +19,7 @@ public class CalendarActivity extends AppCompatActivity {
     private static final int VIEW_ANALISIS=1;
     ScrollCalendar scrollcalendar;
     ArrayList<DiaAnalisis> ArrayDiaAnalisis = new ArrayList<>(50);
+    int lvlGlucosa =100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +52,12 @@ public class CalendarActivity extends AppCompatActivity {
                         nuevoDiaAnalisis=false;
                         ArrayList<Analisis> analisis;
                         analisis=ArrayDiaAnalisis.get(i).getArrayAnalisi(); //Se coge el array de los analisis actual
-                        analisis.add(new Analisis(1240, 100, "Nota1", "Nota2")); //Se añade un nuevo objeto analisis y se rellena
+                        analisis.add(new Analisis(12, 40, lvlGlucosa, "Antes de comer", "Mucho ejercicio")); //Se añade un nuevo objeto analisis y se rellena
                         ArrayDiaAnalisis.get(i).setArrayAnalisi(analisis);  //Devolvemos el array de los analisis con un analisis mas
                         Intent intent = new Intent(CalendarActivity.this, ResumenAnalisisActivity.class);
                         intent.putExtra("DiaAnalisis", ArrayDiaAnalisis.get(i));
-                        Log.e("SMARTBLOOD", Integer.toString(i));
                         startActivityForResult(intent, VIEW_ANALISIS);
+                        lvlGlucosa=lvlGlucosa+5;
                     }
                 }
                 if(nuevoDiaAnalisis){

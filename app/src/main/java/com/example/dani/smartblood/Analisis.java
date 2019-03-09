@@ -3,8 +3,8 @@ package com.example.dani.smartblood;
 import java.io.Serializable;
 
 public class Analisis implements Serializable {
-    public int getHoramin() {
-        return horamin;
+    public int getHora() {
+        return hora;
     }
 
     public int getNivelGlucosa() {
@@ -19,9 +19,9 @@ public class Analisis implements Serializable {
         return nota2;
     }
 
-    public void setHoramin(int horamin) {
+    public void setHora(int hora) {
 
-        this.horamin = horamin;
+        this.hora = hora;
     }
 
     public void setNivelGlucosa(int nivelGlucosa) {
@@ -36,14 +36,25 @@ public class Analisis implements Serializable {
         this.nota2 = nota2;
     }
 
-    public Analisis(int horamin, int nivelGlucosa, String nota1, String nota2) {
+    public void setMin(int min) {
+        this.min = min;
+    }
 
-        this.horamin = horamin;
+    public int getMin() {
+
+        return min;
+    }
+
+    public Analisis(int hora, int min, int nivelGlucosa, String nota1, String nota2) {
+
+        this.hora = hora;
+        this.min =min;
+
         this.nivelGlucosa = nivelGlucosa;
         this.nota1 = nota1;
         this.nota2 = nota2;
     }
 
-    int horamin, nivelGlucosa;
+    int hora, min, nivelGlucosa;
     String nota1, nota2;
 }
