@@ -25,6 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
+        android:text="120"
         android:textSize="36sp"
         app:layout_constraintEnd_toStartOf="@+id/mgdlView"
         app:layout_constraintHorizontal_bias="0.5"
@@ -60,14 +61,14 @@
         app:layout_constraintTop_toBottomOf="@+id/nivelGlucosaView">
 
         <RadioButton
-            android:id="@+id/radioButton2"
+            android:id="@+id/antesdecomer_rdbutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Antes de comer" />
 
         <RadioButton
-            android:id="@+id/radioButton"
+            android:id="@+id/despuesdecomer_rdbutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -83,6 +84,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="24dp"
+        android:onClick="onRegistrar"
         android:text="Registrar Analisis"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

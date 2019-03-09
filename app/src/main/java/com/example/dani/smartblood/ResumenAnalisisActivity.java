@@ -77,7 +77,6 @@ public class ResumenAnalisisActivity extends AppCompatActivity {
             holder.nota1.setText(analisis.getNota1());
             holder.nota2.setText(analisis.getNota2());
             //Glide.with(this).load("file:///android_asset/burger.png").into(holder.bloodropView);
-
         }
         public int getItemCount(){
             return diaAnalisis.getArrayAnalisi().size();
