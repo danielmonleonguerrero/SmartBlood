@@ -24,21 +24,15 @@ public class RegistrarAnalisis extends AppCompatActivity {
         despuesdecomer_rdbutton=findViewById(R.id.despuesdecomer_rdbutton);
     }
 
-    public void onRegistrar(View view) {/*
-        Analisis analisis = new Analisis(0,0,0,"","");
+    public void onRegistrar(View view) {
         Date currentTime = Calendar.getInstance().getTime();
 
-        analisis.setNivelGlucosa(Integer.valueOf(nivelGlucosaView.getText().toString()));
-        analisis.setHora(currentTime.getHours());
-        analisis.setMin(currentTime.getMinutes());
+        Analisis analisis = new Analisis(new Date(currentTime.getYear(), currentTime.getMonth(), currentTime.getDate(), currentTime.getHours(), currentTime.getMinutes()), 70, "", "Medicación");
         if (antesdecomer_rdbutton.isChecked()) analisis.setNota1(antesdecomer_rdbutton.getText().toString());
-        else if (despuesdecomer_rdbutton.isChecked()) analisis.setNota2(despuesdecomer_rdbutton.getText().toString());
+        else if (despuesdecomer_rdbutton.isChecked()) analisis.setNota1(despuesdecomer_rdbutton.getText().toString());
 
         Intent intent = new Intent(RegistrarAnalisis.this, CalendarActivity.class);
         intent.putExtra("Analisis", analisis);
-        intent.putExtra("Anyo", currentTime.getYear());
-        intent.putExtra("Mes", currentTime.getMonth());
-        intent.putExtra("Dia", currentTime.getDay());
-        startActivityForResult(intent, REGISTER_ANALISIS);*/
+        startActivityForResult(intent, REGISTER_ANALISIS);
     }
 }

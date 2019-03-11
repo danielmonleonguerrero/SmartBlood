@@ -12,6 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -85,7 +88,7 @@ public class ResumenAnalisisActivity extends AppCompatActivity {
             holder.minView.setText(Integer.toString(analisisHolder.getTiempo().getMinutes()));
             holder.nota1.setText(analisisHolder.getNota1());
             holder.nota2.setText(analisisHolder.getNota2());
-            //Glide.with(this).load("file:///android_asset/burger.png").into(holder.bloodropView);
+            Glide.with(ResumenAnalisisActivity.this).load("file:///android_asset/blood_drop.png").into(holder.bloodropView);
         }
         public int getItemCount(){
             return ListAnalisis.size();

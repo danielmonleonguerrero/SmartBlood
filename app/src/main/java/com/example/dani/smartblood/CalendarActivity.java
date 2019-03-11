@@ -43,6 +43,7 @@ public class CalendarActivity extends AppCompatActivity {
             }
         });
 
+        //Se detecta CLIC en un dia del calendario
         scrollcalendar.setOnDateClickListener(new OnDateClickListener() {
             @Override
             public void onCalendarDayClicked(int year, int month, int day) {
@@ -58,15 +59,13 @@ public class CalendarActivity extends AppCompatActivity {
                         ListAnalisisIntent.add(ListAnalisis.get(i));
                     }
                 }
-                //Se encapsua el List en un objeto del tipo DiaAnalisis para poder pasarlo a otra actividad con el intent.
+                //Se encapsua el List en un objeto del tipo DiaAnalisis para poder pasarlo a otra actividad como extra en el intent.
                 diaAnalisis.setArrayAnalisis(ListAnalisisIntent);
 
-                //Se crea una intent
+                //Se crea una intent y se llama a la actividad ResumenAnalisisActivity
                 Intent intent = new Intent(CalendarActivity.this, ResumenAnalisisActivity.class);
                 intent.putExtra("diaAnalisis", diaAnalisis);
                 startActivityForResult(intent, VIEW_ANALISIS);
-
-                //Si no existe un Analisis en el dia seleccionado, se crea uno. Tambien se crea un array de analisis para introducirlo en el array de diaanalisis
 
                 lvlGlucosa=lvlGlucosa+5;
             }
@@ -84,7 +83,7 @@ public class CalendarActivity extends AppCompatActivity {
         });
     }
 
-    //Se mira si X dia necesita estar marcado con color rojo.
+    //Mira si X dia necesita estar marcado con color rojo.
     private boolean isSelected(int year, int month, int day) {
         for(int i=0; i<ListAnalisis.size(); i++){
             if(year==ListAnalisis.get(i).getTiempo().getYear() && month==ListAnalisis.get(i).getTiempo().getMonth() && day==ListAnalisis.get(i).getTiempo().getDate()){

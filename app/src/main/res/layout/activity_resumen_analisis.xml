@@ -13,6 +13,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:text="de"
+        android:textStyle="bold"
         android:textSize="24sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/diaView"
         app:layout_constraintStart_toEndOf="@+id/mesView" />
@@ -25,6 +26,7 @@
         android:layout_marginLeft="32dp"
         android:layout_marginTop="16dp"
         android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="18" />
@@ -36,6 +38,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:text="de"
+        android:textStyle="bold"
         android:textSize="24sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/diaView"
         app:layout_constraintStart_toEndOf="@+id/diaView" />
@@ -49,7 +52,9 @@
         android:textSize="24sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/deView"
         app:layout_constraintStart_toEndOf="@+id/deView"
+        android:textStyle="bold"
         tools:text="Diciembre" />
+
 
     <TextView
         android:id="@+id/anyoView"
@@ -60,6 +65,7 @@
         android:textSize="24sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/de2View"
         app:layout_constraintStart_toEndOf="@+id/de2View"
+        android:textStyle="bold"
         tools:text="2019" />
 
     <ImageView
