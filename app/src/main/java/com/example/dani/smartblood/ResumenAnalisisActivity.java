@@ -21,6 +21,7 @@ import java.util.List;
 
 public class ResumenAnalisisActivity extends AppCompatActivity {
 
+    private static final int VIEW_REGISTER = 2;
     private TextView diaView;
     private TextView mesView;
     private TextView anyoView;
@@ -93,6 +94,11 @@ public class ResumenAnalisisActivity extends AppCompatActivity {
         public int getItemCount(){
             return ListAnalisis.size();
         }
+    }
+
+    public void onNEW(View view) {
+        Intent intent = new Intent(ResumenAnalisisActivity.this, RegistrarAnalisis.class);
+        startActivityForResult(intent, VIEW_REGISTER);
     }
 
 }

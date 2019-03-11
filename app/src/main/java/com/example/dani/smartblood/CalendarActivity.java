@@ -29,6 +29,12 @@ public class CalendarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_calendar);
         scrollcalendar = findViewById(R.id.scrollcalendar);
 
+       /* Intent intent = getIntent();
+        if(intent!=null){
+            Analisis newAnalisis = (Analisis)intent.getSerializableExtra("Analisis");
+            ListAnalisis.add(newAnalisis);
+        }*/
+
         //Ocultamos meses posteriores
         scrollcalendar.setMonthScrollListener(new MonthScrollListener() {
             @Override
