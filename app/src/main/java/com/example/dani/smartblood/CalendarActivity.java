@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import pl.rafman.scrollcalendar.ScrollCalendar;
 import pl.rafman.scrollcalendar.contract.DateWatcher;
@@ -18,7 +20,7 @@ public class CalendarActivity extends AppCompatActivity {
 
     private static final int VIEW_ANALISIS=1;
     ScrollCalendar scrollcalendar;
-    ArrayList<DiaAnalisis> ArrayDiaAnalisis = new ArrayList<>(50);
+    List<Analisis> ListAnalisis=new ArrayList<>();
     int lvlGlucosa =100;
 
     @Override
@@ -44,31 +46,31 @@ public class CalendarActivity extends AppCompatActivity {
         scrollcalendar.setOnDateClickListener(new OnDateClickListener() {
             @Override
             public void onCalendarDayClicked(int year, int month, int day) {
-                boolean nuevoDiaAnalisis=true;
-               //Buscamos si existe un Analisis con el dia seleccionado
-                for(int i=0; i<ArrayDiaAnalisis.size(); i++){
-                    if(year==ArrayDiaAnalisis.get(i).getAnyo() && month==ArrayDiaAnalisis.get(i).getMes() && day==ArrayDiaAnalisis.get(i).getDia()){
-                        //Si hay un Analisis en el dia seleccionado, se introduce un nuevo Analisis
-                        nuevoDiaAnalisis=false;
-                        ArrayList<Analisis> Arrayanalisis;
-                        Arrayanalisis=ArrayDiaAnalisis.get(i).getArrayAnalisi(); //Se coge el array de los analisis actual
-                        Arrayanalisis.add(new Analisis(12, 40, lvlGlucosa, "Antes de comer", "Mucho ejercicio")); //Se añade un nuevo objeto analisis y se rellena
-                        ArrayDiaAnalisis.get(i).setArrayAnalisi(Arrayanalisis);  //Devolvemos el array de los analisis con un analisis mas
-                        Intent intent = new Intent(CalendarActivity.this, ResumenAnalisisActivity.class);
-                        intent.putExtra("DiaAnalisis", ArrayDiaAnalisis.get(i));
-                        startActivityForResult(intent, VIEW_ANALISIS);
-                        lvlGlucosa=lvlGlucosa+5;
+                //Se crea un nuevo analisis
+                Analisis newAnalisis = new Analisis(new Date (year, month, day, 12, 40),lvlGlucosa,"Antes de comer", "Poco ejercicio");
+                ListAnalisis.add(newAnalisis); //Se añade un nuevo objeto analisis y se rellena
+
+                //Se rellena una lista con los analisis del dia seleccionada
+                DiaAnalisis diaAnalisis =new DiaAnalisis(new ArrayList<Analisis>());
+                List<Analisis> ListAnalisisIntent=new ArrayList<>();
+                for(int i=0; i<ListAnalisis.size(); i++){
+                    if(year==ListAnalisis.get(i).getTiempo().getYear() && month==ListAnalisis.get(i).getTiempo().getMonth() && day==ListAnalisis.get(i).getTiempo().getDate()){
+                        ListAnalisisIntent.add(ListAnalisis.get(i));
                     }
                 }
+                //Se encapsua el List en un objeto del tipo DiaAnalisis para poder pasarlo a otra actividad con el intent.
+                diaAnalisis.setArrayAnalisis(ListAnalisisIntent);
+
+                //Se crea una intent
+                Intent intent = new Intent(CalendarActivity.this, ResumenAnalisisActivity.class);
+                intent.putExtra("diaAnalisis", diaAnalisis);
+                startActivityForResult(intent, VIEW_ANALISIS);
+
                 //Si no existe un Analisis en el dia seleccionado, se crea uno. Tambien se crea un array de analisis para introducirlo en el array de diaanalisis
-                if(nuevoDiaAnalisis){
-                    ArrayList<Analisis> ArrayAnalisis = new ArrayList<>();
-                    ArrayDiaAnalisis.add(new DiaAnalisis(day, month, year, 100, ArrayAnalisis));
-                    Intent intent = new Intent(CalendarActivity.this, ResumenAnalisisActivity.class);
-                    intent.putExtra("DiaAnalisis", ArrayDiaAnalisis.get((ArrayDiaAnalisis.size())-1));
-                    startActivityForResult(intent, VIEW_ANALISIS);
-                }
+
+                lvlGlucosa=lvlGlucosa+5;
             }
+
         });
 
         //Modifica las apariencias de los dias en el calendario.
@@ -84,8 +86,8 @@ public class CalendarActivity extends AppCompatActivity {
 
     //Se mira si X dia necesita estar marcado con color rojo.
     private boolean isSelected(int year, int month, int day) {
-        for(int i=0; i<ArrayDiaAnalisis.size(); i++){
-            if(year==ArrayDiaAnalisis.get(i).getAnyo() && month==ArrayDiaAnalisis.get(i).getMes() && day==ArrayDiaAnalisis.get(i).getDia()){
+        for(int i=0; i<ListAnalisis.size(); i++){
+            if(year==ListAnalisis.get(i).getTiempo().getYear() && month==ListAnalisis.get(i).getTiempo().getMonth() && day==ListAnalisis.get(i).getTiempo().getDate()){
                 return(true);
             }
         }

@@ -24,7 +24,7 @@ public class RegistrarAnalisis extends AppCompatActivity {
         despuesdecomer_rdbutton=findViewById(R.id.despuesdecomer_rdbutton);
     }
 
-    public void onRegistrar(View view) {
+    public void onRegistrar(View view) {/*
         Analisis analisis = new Analisis(0,0,0,"","");
         Date currentTime = Calendar.getInstance().getTime();
 
@@ -39,6 +39,6 @@ public class RegistrarAnalisis extends AppCompatActivity {
         intent.putExtra("Anyo", currentTime.getYear());
         intent.putExtra("Mes", currentTime.getMonth());
         intent.putExtra("Dia", currentTime.getDay());
-        startActivityForResult(intent, REGISTER_ANALISIS);
+        startActivityForResult(intent, REGISTER_ANALISIS);*/
     }
 }

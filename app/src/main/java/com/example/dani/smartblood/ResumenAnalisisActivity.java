@@ -12,6 +12,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 public class ResumenAnalisisActivity extends AppCompatActivity {
 
     private TextView diaView;
@@ -21,9 +25,11 @@ public class ResumenAnalisisActivity extends AppCompatActivity {
     String[] MesesDelAnyo = new String[]{
      "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Setiembre", "Octubre", "Noviembre", "Diciembre"
     };
-    DiaAnalisis diaAnalisis;
+    Analisis analisis =new Analisis(new Date(0,0,0),0,"","");
+    List<Analisis> ListAnalisis =new ArrayList<>();
     private Adapter adapter;
     private RecyclerView analisis_list_view;
+    DiaAnalisis diaAnalisis;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +43,14 @@ public class ResumenAnalisisActivity extends AppCompatActivity {
         analisis_list_view.setLayoutManager(new LinearLayoutManager(this));
         adapter = new Adapter();
         analisis_list_view.setAdapter(adapter);
+
         Intent intent = getIntent();
-        diaAnalisis =(DiaAnalisis)intent.getSerializableExtra("DiaAnalisis");
-        diaView.setText(Integer.toString(diaAnalisis.getDia()));
-        mesView.setText(MesesDelAnyo[diaAnalisis.getMes()]);
-        anyoView.setText(Integer.toString(diaAnalisis.getAnyo()));
+        diaAnalisis =(DiaAnalisis)intent.getSerializableExtra("diaAnalisis");
+        ListAnalisis=diaAnalisis.getArrayAnalisis();
+        Log.e("SMARTBLOOD", "Tamanyo en resumen: " + String.valueOf(ListAnalisis.size()));
+        diaView.setText(Integer.toString(ListAnalisis.get(0).getTiempo().getDate()));
+        mesView.setText(MesesDelAnyo[ListAnalisis.get(0).getTiempo().getMonth()]);
+        anyoView.setText(Integer.toString(ListAnalisis.get(0).getTiempo().getYear()));
 
 
     }
@@ -70,16 +79,16 @@ public class ResumenAnalisisActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder,int position){
-            Analisis analisis = diaAnalisis.getArrayAnalisi().get(position);
-            holder.nivelGlucosaView.setText( Integer.toString(analisis.getNivelGlucosa()));
-            holder.horaView.setText(Integer.toString(analisis.getHora()));
-            holder.minView.setText(Integer.toString(analisis.getMin()));
-            holder.nota1.setText(analisis.getNota1());
-            holder.nota2.setText(analisis.getNota2());
+            Analisis analisisHolder = ListAnalisis.get(position);
+            holder.nivelGlucosaView.setText( Integer.toString(analisisHolder.getNivelGlucosa()));
+            holder.horaView.setText(Integer.toString(analisisHolder.getTiempo().getHours()));
+            holder.minView.setText(Integer.toString(analisisHolder.getTiempo().getMinutes()));
+            holder.nota1.setText(analisisHolder.getNota1());
+            holder.nota2.setText(analisisHolder.getNota2());
             //Glide.with(this).load("file:///android_asset/burger.png").into(holder.bloodropView);
         }
         public int getItemCount(){
-            return diaAnalisis.getArrayAnalisi().size();
+            return ListAnalisis.size();
         }
     }
 
