@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -27,10 +28,12 @@ public class CalendarActivity extends AppCompatActivity {
     private static final int VIEW_ANALISIS=1;
     private static final String NombreArchivoSalvaguarda="AnalisisSalvaguarda";
 
+    //
     ScrollCalendar scrollcalendar;
     List<Analisis> ListAnalisis=new ArrayList<>();
     int lvlGlucosa =100;
 
+    //-------------------METODOS ONCREATE Y ONSTOP-------------------//
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +46,11 @@ public class CalendarActivity extends AppCompatActivity {
         if(intent.getBooleanExtra("NewAnalisis", false)){
             Analisis newAnalisisIntent = (Analisis)intent.getSerializableExtra("Analisis");
             ListAnalisis.add(newAnalisisIntent);
+            Toast.makeText(this, Integer.toString(ListAnalisis.get((ListAnalisis.size()-1)).getTiempo().getYear())+"/"+
+                            Integer.toString(ListAnalisis.get((ListAnalisis.size()-1)).getTiempo().getMonth())+"/"+
+                            Integer.toString(ListAnalisis.get((ListAnalisis.size()-1)).getTiempo().getDay())+"///"+
+                            Integer.toString(ListAnalisis.get((ListAnalisis.size()-1)).getNivelGlucosa())
+                    , Toast.LENGTH_LONG).show();
         }
 
         //Ocultamos meses posteriores
@@ -100,6 +108,12 @@ public class CalendarActivity extends AppCompatActivity {
             }
         });
     }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        GuardarDatosAnalisis();
+    }
+    //----------------------------------------------------------------//
 
     //Mira si X dia necesita estar marcado con color rojo.
     private boolean isSelected(int year, int month, int day) {
@@ -114,7 +128,7 @@ public class CalendarActivity extends AppCompatActivity {
         return(false);
     }
 
-
+    //--------METODOS PARA LA SALVAGUARDA DE DATOS DE ANALISIS--------//
     private void CargarDatosAnalisis() {
         try {
             FileInputStream FIS =openFileInput(NombreArchivoSalvaguarda);
@@ -147,8 +161,6 @@ public class CalendarActivity extends AppCompatActivity {
         } catch (FileNotFoundException e) {
             Log.e("SMARTBLOOD", "No se ha podido abrir el archivo: " + NombreArchivoSalvaguarda + "Excepcion: " + e.getMessage());
         }
-        Log.e("SMARTBLOOD",getFileStreamPath(NombreArchivoSalvaguarda).toString());
-
     }
 
     private String crearStringSalvaguarda(int i) {
@@ -164,12 +176,8 @@ public class CalendarActivity extends AppCompatActivity {
                 String.valueOf(sdAnalisis.getMinutes()) + "\n";                     //Part 7
         return (ssAnalisis);
     }
+    //----------------------------------------------------------------//
 
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        GuardarDatosAnalisis();
-    }
 
 }
