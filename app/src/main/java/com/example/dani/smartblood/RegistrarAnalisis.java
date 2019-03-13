@@ -32,6 +32,7 @@ public class RegistrarAnalisis extends AppCompatActivity {
         else if (despuesdecomer_rdbutton.isChecked()) analisis.setNota1(despuesdecomer_rdbutton.getText().toString());
 
         Intent intent = new Intent(RegistrarAnalisis.this, CalendarActivity.class);
+        intent.putExtra("NewAnalisis", true);
         intent.putExtra("Analisis", analisis);
         startActivityForResult(intent, REGISTER_ANALISIS);
     }

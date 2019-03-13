@@ -1,13 +1,19 @@
 package com.example.dani.smartblood;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Scanner;
 
 import pl.rafman.scrollcalendar.ScrollCalendar;
 import pl.rafman.scrollcalendar.contract.DateWatcher;
@@ -19,6 +25,8 @@ import pl.rafman.scrollcalendar.data.CalendarDay;
 public class CalendarActivity extends AppCompatActivity {
 
     private static final int VIEW_ANALISIS=1;
+    private static final String NombreArchivoSalvaguarda="AnalisisSalvaguarda";
+
     ScrollCalendar scrollcalendar;
     List<Analisis> ListAnalisis=new ArrayList<>();
     int lvlGlucosa =100;
@@ -29,11 +37,13 @@ public class CalendarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_calendar);
         scrollcalendar = findViewById(R.id.scrollcalendar);
 
-       /* Intent intent = getIntent();
-        if(intent!=null){
-            Analisis newAnalisis = (Analisis)intent.getSerializableExtra("Analisis");
-            ListAnalisis.add(newAnalisis);
-        }*/
+        CargarDatosAnalisis();
+
+        Intent intent = getIntent();
+        if(intent.getBooleanExtra("NewAnalisis", false)){
+            Analisis newAnalisisIntent = (Analisis)intent.getSerializableExtra("Analisis");
+            ListAnalisis.add(newAnalisisIntent);
+        }
 
         //Ocultamos meses posteriores
         scrollcalendar.setMonthScrollListener(new MonthScrollListener() {
@@ -53,10 +63,12 @@ public class CalendarActivity extends AppCompatActivity {
         scrollcalendar.setOnDateClickListener(new OnDateClickListener() {
             @Override
             public void onCalendarDayClicked(int year, int month, int day) {
+                //NO ES PARTE DE ON CLIC. ESTA AQUI DE FORMA PROVISIONAL. ESTO SE EJECUTA EN REGISTRARANALISISACTIVITY
                 //Se crea un nuevo analisis
                 Analisis newAnalisis = new Analisis(new Date (year, month, day, 12, 40),lvlGlucosa,"Antes de comer", "Poco ejercicio");
                 ListAnalisis.add(newAnalisis); //Se añade un nuevo objeto analisis y se rellena
 
+                //-------ON CLIC REAL-------//
                 //Se rellena una lista con los analisis del dia seleccionada
                 DiaAnalisis diaAnalisis =new DiaAnalisis(new ArrayList<Analisis>());
                 List<Analisis> ListAnalisisIntent=new ArrayList<>();
@@ -91,11 +103,73 @@ public class CalendarActivity extends AppCompatActivity {
 
     //Mira si X dia necesita estar marcado con color rojo.
     private boolean isSelected(int year, int month, int day) {
-        for(int i=0; i<ListAnalisis.size(); i++){
-            if(year==ListAnalisis.get(i).getTiempo().getYear() && month==ListAnalisis.get(i).getTiempo().getMonth() && day==ListAnalisis.get(i).getTiempo().getDate()){
-                return(true);
+        Log.e("SMARTBLOOD", Integer.toString(ListAnalisis.size()));
+        if(ListAnalisis.size()>1){
+            for(int i=0; i<ListAnalisis.size(); i++){
+                if(year==ListAnalisis.get(i).getTiempo().getYear() && month==ListAnalisis.get(i).getTiempo().getMonth() && day==ListAnalisis.get(i).getTiempo().getDate()){
+                    return(true);
+                }
             }
         }
         return(false);
     }
+
+
+    private void CargarDatosAnalisis() {
+        try {
+            FileInputStream FIS =openFileInput(NombreArchivoSalvaguarda);
+            Scanner scanner = new Scanner(FIS);
+            while (scanner.hasNextLine()){
+                String Analisisscanner = scanner.nextLine();
+                String[] parts = Analisisscanner.split("/");
+                Analisis lAnalisis = new Analisis(new Date(Integer.valueOf(parts[3]),
+                        Integer.valueOf(parts[4]), Integer.valueOf(parts[5]), Integer.valueOf(parts[6]),
+                        Integer.valueOf(parts[7])), Integer.valueOf(parts[0]), parts[1], parts[2] );
+                ListAnalisis.add(lAnalisis);
+            }
+            scrollcalendar.refresh();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void GuardarDatosAnalisis() {
+        try {
+            FileOutputStream FOS = openFileOutput(NombreArchivoSalvaguarda, MODE_PRIVATE);
+            for (int i=0; i<ListAnalisis.size(); i++){
+                String sAnalisis = crearStringSalvaguarda(i); //salvaguardaAnalisis
+                try {
+                    FOS.write(sAnalisis.getBytes());
+                } catch (IOException e) {
+                    Log.e("SMARTBLOOD", "No se ha podido escribir en el fichero. Excpecion: " + e.getMessage());
+                }
+            }
+        } catch (FileNotFoundException e) {
+            Log.e("SMARTBLOOD", "No se ha podido abrir el archivo: " + NombreArchivoSalvaguarda + "Excepcion: " + e.getMessage());
+        }
+        Log.e("SMARTBLOOD",getFileStreamPath(NombreArchivoSalvaguarda).toString());
+
+    }
+
+    private String crearStringSalvaguarda(int i) {
+        Analisis Analisis = ListAnalisis.get(i);
+        Date sdAnalisis = Analisis.getTiempo();
+        String ssAnalisis = Integer.valueOf(Analisis.getNivelGlucosa()) + "/" +     //Part 0
+                Analisis.getNota1() + "/"                                           //Part 1
+                +Analisis.getNota2() + "/"+                                         //Part 2
+                String.valueOf(sdAnalisis.getYear()) + "/" +                        //Part 3
+                String.valueOf(sdAnalisis.getMonth()) + "/"+                        //Part 4
+                String.valueOf(sdAnalisis.getDate()) + "/"+                         //Part 5
+                String.valueOf(sdAnalisis.getHours()) + "/"+                        //Part 6
+                String.valueOf(sdAnalisis.getMinutes()) + "\n";                     //Part 7
+        return (ssAnalisis);
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        GuardarDatosAnalisis();
+    }
+
 }
