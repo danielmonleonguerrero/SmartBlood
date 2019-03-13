@@ -28,7 +28,6 @@ public class CalendarActivity extends AppCompatActivity {
     private static final int VIEW_ANALISIS=1;
     private static final String NombreArchivoSalvaguarda="AnalisisSalvaguarda";
 
-    //
     ScrollCalendar scrollcalendar;
     List<Analisis> ListAnalisis=new ArrayList<>();
     int lvlGlucosa =100;
@@ -46,11 +45,6 @@ public class CalendarActivity extends AppCompatActivity {
         if(intent.getBooleanExtra("NewAnalisis", false)){
             Analisis newAnalisisIntent = (Analisis)intent.getSerializableExtra("Analisis");
             ListAnalisis.add(newAnalisisIntent);
-            Toast.makeText(this, Integer.toString(ListAnalisis.get((ListAnalisis.size()-1)).getTiempo().getYear())+"/"+
-                            Integer.toString(ListAnalisis.get((ListAnalisis.size()-1)).getTiempo().getMonth())+"/"+
-                            Integer.toString(ListAnalisis.get((ListAnalisis.size()-1)).getTiempo().getDay())+"///"+
-                            Integer.toString(ListAnalisis.get((ListAnalisis.size()-1)).getNivelGlucosa())
-                    , Toast.LENGTH_LONG).show();
         }
 
         //Ocultamos meses posteriores

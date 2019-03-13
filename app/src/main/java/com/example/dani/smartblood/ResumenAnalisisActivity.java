@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -55,8 +54,6 @@ public class ResumenAnalisisActivity extends AppCompatActivity {
         diaView.setText(Integer.toString(ListAnalisis.get(0).getTiempo().getDate()));
         mesView.setText(MesesDelAnyo[ListAnalisis.get(0).getTiempo().getMonth()]);
         anyoView.setText(Integer.toString(ListAnalisis.get(0).getTiempo().getYear()));
-
-
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -69,7 +66,7 @@ public class ResumenAnalisisActivity extends AppCompatActivity {
             minView=itemView.findViewById(R.id.minView);
             nota1=itemView.findViewById(R.id.nota1View);
             nota2=itemView.findViewById(R.id.nota2View);
-            bloodropView=itemView.findViewById(R.id.blooddropView);
+            bloodropView=itemView.findViewById(R.id.bloodropView);
         }
     }
 
