@@ -86,16 +86,24 @@ public class ResumenAnalisisActivity extends AppCompatActivity {
             holder.minView.setText(Integer.toString(analisisHolder.getTiempo().getMinutes()));
             holder.nota1.setText(analisisHolder.getNota1());
             holder.nota2.setText(analisisHolder.getNota2());
-            Glide.with(ResumenAnalisisActivity.this).load("file:///android_asset/blood_drop.png").into(holder.bloodropView);
+            Glide.with(ResumenAnalisisActivity.this).load(PathImageGenerator(analisisHolder.getNivelGlucosa())).into(holder.bloodropView);
         }
         public int getItemCount(){
             return ListAnalisis.size();
         }
     }
 
+    private String PathImageGenerator(int nivelGlucosa) {
+    String path ="file:///android_asset/bloodrop" + String.valueOf(nivelGlucosa) + ".png";
+    return path;
+    }
+
+
     public void onNEW(View view) {
         Intent intent = new Intent(ResumenAnalisisActivity.this, RegistrarAnalisis.class);
         startActivityForResult(intent, VIEW_REGISTER);
     }
+
+
 
 }

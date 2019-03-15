@@ -69,7 +69,7 @@ public class CalendarActivity extends AppCompatActivity {
                 //Se crea un nuevo analisis
                 Analisis newAnalisis = new Analisis(new Date (year, month, day, 12, 40),lvlGlucosa,"Antes de comer", "Poco ejercicio");
                 ListAnalisis.add(newAnalisis); //Se añade un nuevo objeto analisis y se rellena
-
+                scrollcalendar.refresh();
                 //-------ON CLIC REAL-------//
                 //Se rellena una lista con los analisis del dia seleccionada
                 DiaAnalisis diaAnalisis =new DiaAnalisis(new ArrayList<Analisis>());
@@ -86,8 +86,6 @@ public class CalendarActivity extends AppCompatActivity {
                 Intent intent = new Intent(CalendarActivity.this, ResumenAnalisisActivity.class);
                 intent.putExtra("diaAnalisis", diaAnalisis);
                 startActivityForResult(intent, VIEW_ANALISIS);
-
-                lvlGlucosa=lvlGlucosa+5;
             }
 
         });

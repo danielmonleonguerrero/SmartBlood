@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".RegistrarAnalisis">
 
+
     <ImageView
         android:id="@+id/bloodropView"
         android:layout_width="130dp"
@@ -24,15 +25,16 @@
         android:id="@+id/nivelGlucosaView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="120"
+        android:layout_marginTop="8dp"
+        android:text="70"
         android:textSize="36sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/mgdlView"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bloodropView"
-        tools:text="120" />
+        tools:text="70" />
 
     <TextView
         android:id="@+id/mgdlView"
@@ -45,10 +47,11 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/nivelGlucosaView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/nivelGlucosaView" />
+        app:layout_constraintStart_toEndOf="@+id/nivelGlucosaView"
+        android:textStyle="bold" />
 
     <RadioGroup
-        android:id="@+id/radioGroup1"
+        android:id="@+id/nota1_rdgroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -88,10 +91,10 @@
         android:text="Registrar Analisis"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+        app:layout_constraintTop_toBottomOf="@+id/nota2_rdgroup" />
 
     <RadioGroup
-        android:id="@+id/radioGroup"
+        android:id="@+id/nota2_rdgroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -101,7 +104,7 @@
         android:layout_marginRight="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup1">
+        app:layout_constraintTop_toBottomOf="@+id/nota1_rdgroup">
 
         <RadioButton
             android:id="@+id/pocacomida_rdbutton"
@@ -153,4 +156,6 @@
             android:text="Menstruación" />
 
     </RadioGroup>
+
+
 </android.support.constraint.ConstraintLayout>
