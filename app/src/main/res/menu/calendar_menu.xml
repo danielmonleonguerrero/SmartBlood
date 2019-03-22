@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/ConexionBT"
+        android:title="Conexión BT"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/DesconexionBT"
+        android:title="Desconexión BT"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/CodigoQR"
+        android:title="Código QR"
+        app:showAsAction="never" />
+</menu>

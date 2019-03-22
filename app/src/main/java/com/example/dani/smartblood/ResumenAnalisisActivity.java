@@ -50,7 +50,7 @@ public class ResumenAnalisisActivity extends AppCompatActivity {
         Intent intent = getIntent();
         diaAnalisis =(DiaAnalisis)intent.getSerializableExtra("diaAnalisis");
         ListAnalisis=diaAnalisis.getArrayAnalisis();
-        Log.e("SMARTBLOOD", "Tamanyo en resumen: " + String.valueOf(ListAnalisis.size()));
+        //TODO: Ordenar la lista por orden creciente en la fecha
         diaView.setText(Integer.toString(ListAnalisis.get(0).getTiempo().getDate()));
         mesView.setText(MesesDelAnyo[ListAnalisis.get(0).getTiempo().getMonth()]);
         anyoView.setText(Integer.toString(ListAnalisis.get(0).getTiempo().getYear()));
@@ -98,12 +98,9 @@ public class ResumenAnalisisActivity extends AppCompatActivity {
     return path;
     }
 
-
     public void onNEW(View view) {
         Intent intent = new Intent(ResumenAnalisisActivity.this, RegistrarAnalisis.class);
         startActivityForResult(intent, VIEW_REGISTER);
     }
-
-
 
 }

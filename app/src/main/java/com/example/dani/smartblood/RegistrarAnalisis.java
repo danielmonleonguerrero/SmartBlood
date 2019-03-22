@@ -44,6 +44,8 @@ public class RegistrarAnalisis extends AppCompatActivity {
         else nota1_esc_rdbutton.setText("");
         if(id_nota2!=-1) nota2_esc_rdbutton=findViewById(id_nota2);
         else nota2_esc_rdbutton.setText("");
+        //TODO: Añadir más notas en Notas 2.
+        //TODO: Añadir un scroll para poder ver todas las notas.
 
         Analisis analisis = new Analisis(new Date((currentTime.getYear()+1900), currentTime.getMonth(), currentTime.getDate(),
                 currentTime.getHours(), currentTime.getMinutes()),

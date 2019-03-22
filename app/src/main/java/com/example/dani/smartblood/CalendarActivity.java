@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.io.FileInputStream;
@@ -95,7 +98,7 @@ public class CalendarActivity extends AppCompatActivity {
             @State
             @Override
             public int getStateForDate(int year, int month, int day) {
-                if(isSelected(year,month,day)) return CalendarDay.TODAY;
+                if(isMarcado(year,month,day)) return CalendarDay.TODAY;
                 else return CalendarDay.DEFAULT;
             }
         });
@@ -105,12 +108,38 @@ public class CalendarActivity extends AppCompatActivity {
         super.onStop();
         GuardarDatosAnalisis();
     }
+
+    //Menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.calendar_menu, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.ConexionBT:
+                Toast.makeText(this, "Conexión Bluetooth", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.DesconexionBT:
+                Toast.makeText(this, "Desconexión Bluetooth", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.CodigoQR:
+                Toast.makeText(this, "CodigoQR", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     //----------------------------------------------------------------//
 
     //Mira si X dia necesita estar marcado con color rojo.
-    private boolean isSelected(int year, int month, int day) {
+    private boolean isMarcado(int year, int month, int day) {
         Log.e("SMARTBLOOD", Integer.toString(ListAnalisis.size()));
-        if(ListAnalisis.size()>1){
+        Toast.makeText(this, Integer.toString(ListAnalisis.size()), Toast.LENGTH_SHORT).show();
+        if(ListAnalisis.size()>0){
             for(int i=0; i<ListAnalisis.size(); i++){
                 if(year==ListAnalisis.get(i).getTiempo().getYear() && month==ListAnalisis.get(i).getTiempo().getMonth() && day==ListAnalisis.get(i).getTiempo().getDate()){
                     return(true);
