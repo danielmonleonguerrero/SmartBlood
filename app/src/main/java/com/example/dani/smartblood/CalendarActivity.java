@@ -138,7 +138,6 @@ public class CalendarActivity extends AppCompatActivity {
     //Mira si X dia necesita estar marcado con color rojo.
     private boolean isMarcado(int year, int month, int day) {
         Log.e("SMARTBLOOD", Integer.toString(ListAnalisis.size()));
-        Toast.makeText(this, Integer.toString(ListAnalisis.size()), Toast.LENGTH_SHORT).show();
         if(ListAnalisis.size()>0){
             for(int i=0; i<ListAnalisis.size(); i++){
                 if(year==ListAnalisis.get(i).getTiempo().getYear() && month==ListAnalisis.get(i).getTiempo().getMonth() && day==ListAnalisis.get(i).getTiempo().getDate()){
