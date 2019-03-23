@@ -198,8 +198,8 @@ public class BluetoothConnectionService {
         Log.d(TAG, "startClient: Started.");
 
         //initprogress dialog
-        mProgressDialog = ProgressDialog.show(mContext,"Connecting Bluetooth"
-                ,"Please Wait...",true);
+        //mProgressDialog = ProgressDialog.show(mContext,"Connecting Bluetooth"
+          //      ,"Please Wait...",true);
 
         mConnectThread = new ConnectThread(device, uuid);
         mConnectThread.start();

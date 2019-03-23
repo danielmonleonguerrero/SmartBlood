@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
+import ConexionBT.BluetoothConnection;
 import pl.rafman.scrollcalendar.ScrollCalendar;
 import pl.rafman.scrollcalendar.contract.DateWatcher;
 import pl.rafman.scrollcalendar.contract.MonthScrollListener;
@@ -121,6 +122,8 @@ public class CalendarActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.ConexionBT:
                 Toast.makeText(this, "Conexión Bluetooth", Toast.LENGTH_SHORT).show();
+                BluetoothConnection bluetoothConnection = new BluetoothConnection();
+                bluetoothConnection.startConnection();
                 return true;
             case R.id.DesconexionBT:
                 Toast.makeText(this, "Desconexión Bluetooth", Toast.LENGTH_SHORT).show();
