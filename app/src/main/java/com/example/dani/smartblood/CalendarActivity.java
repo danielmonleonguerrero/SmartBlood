@@ -31,9 +31,13 @@ public class CalendarActivity extends AppCompatActivity {
 
     private static final int VIEW_ANALISIS=1;
     private static final String NombreArchivoSalvaguarda="AnalisisSalvaguarda";
+    private static final String NombreUsuario="Pepita/Gonzalez/Ruiz"; //El nombre del usuario es el nombre de la coleccion en firebase. Se obtiene en RegistrarUsuarioActivity.
+
+    BluetoothConnection bluetoothConnection = new BluetoothConnection();
 
     ScrollCalendar scrollcalendar;
     List<Analisis> ListAnalisis=new ArrayList<>();
+
     int lvlGlucosa =100;
 
     //-------------------METODOS ONCREATE Y ONSTOP-------------------//
@@ -122,20 +126,19 @@ public class CalendarActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.ConexionBT:
                 Toast.makeText(this, "Conexión Bluetooth", Toast.LENGTH_SHORT).show();
-                BluetoothConnection bluetoothConnection = new BluetoothConnection();
                 bluetoothConnection.startConnection();
                 return true;
             case R.id.DesconexionBT:
                 Toast.makeText(this, "Desconexión Bluetooth", Toast.LENGTH_SHORT).show();
+                bluetoothConnection.disableBT();
                 return true;
             case R.id.CodigoQR:
-                Toast.makeText(this, "CodigoQR", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Codigo QR", Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-
     //----------------------------------------------------------------//
 
     //Mira si X dia necesita estar marcado con color rojo.

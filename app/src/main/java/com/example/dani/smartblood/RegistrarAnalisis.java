@@ -10,6 +10,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+import ConexionBT.AnalisisBluetooth;
 
 import com.bumptech.glide.Glide;
 
@@ -32,6 +33,7 @@ public class RegistrarAnalisis extends AppCompatActivity {
         nota2_rdgroup=findViewById(R.id.nota2_rdgroup);
         bloodropView=findViewById(R.id.bloodropView);
         Glide.with(RegistrarAnalisis.this).load(PathImageGenerator(Integer.valueOf(nivelGlucosaView.getText().toString()))).into(bloodropView);
+        Intent intent = getIntent();
     }
 
     public void onRegistrar(View view) {

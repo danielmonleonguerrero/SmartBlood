@@ -16,11 +16,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.dani.smartblood.CalendarActivity;
+import com.example.dani.smartblood.RegistrarAnalisis;
+
 import java.util.Set;
 import java.util.UUID;
 
 
 public class BluetoothConnection extends AppCompatActivity{
+    int glucosa;
+
     private static final String TAG = "MainActivity";
     boolean alreadypaired=false;
     BluetoothAdapter mBluetoothAdapter;
@@ -94,8 +99,6 @@ public class BluetoothConnection extends AppCompatActivity{
     };
 
 
-
-
     /**
      * Broadcast Receiver for listing devices that are not yet paired
      * -Executed by btnDiscover() method.
@@ -119,6 +122,8 @@ public class BluetoothConnection extends AppCompatActivity{
             }
         }
     };
+
+
 
     /**
      * Broadcast Receiver that detects bond state changes (Pairing status changes)
@@ -149,10 +154,13 @@ public class BluetoothConnection extends AppCompatActivity{
         }
     };
 
-    public void startConnection() {
+    public BluetoothConnection() {
         //Broadcasts when bond state changes (ie:pairing)
         //IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
         //registerReceiver(mBroadcastReceiver4, filter);
+    }
+
+    public void startConnection() {
 
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
@@ -195,7 +203,7 @@ public class BluetoothConnection extends AppCompatActivity{
         }
     }
 
-    private void DisableBT() {
+    public void disableBT() {
         if(mBluetoothAdapter.isEnabled()){
             mBluetoothAdapter.disable();
             IntentFilter BTIntent = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
@@ -212,12 +220,10 @@ public class BluetoothConnection extends AppCompatActivity{
             Log.d("MyBlueT", "EnableBT: Se pide al usuario encender BT");
             Intent enableBTIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivity(enableBTIntent);
-
             IntentFilter BTIntent = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
             registerReceiver(mBroadcastReceiver1, BTIntent);
         }
     }
-
 
     public void discoverDevices() {
         Log.d(TAG, "btnDiscover: Looking for unpaired devices.");
@@ -249,12 +255,14 @@ public class BluetoothConnection extends AppCompatActivity{
             permissionCheck += this.checkSelfPermission("Manifest.permission.ACCESS_COARSE_LOCATION");
             if (permissionCheck != 0) {
                 //this.requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1001); //Any number
-                this.requestPermissions(new String[]{Manifest.permission.BLUETOOTH_ADMIN, Manifest.permission.BLUETOOTH}, 1001); //Any number
+                this.requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1001); //Any number
             }
         }else{
             Log.d(TAG, "checkBTPermissions: No need to check permissions. SDK version < LOLLIPOP.");
         }
 
     }
+
+
 
 }

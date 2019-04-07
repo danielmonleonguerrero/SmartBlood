@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "747890269865",
+    "firebase_url": "https://smartblood-451f9.firebaseio.com",
+    "project_id": "smartblood-451f9",
+    "storage_bucket": "smartblood-451f9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:747890269865:android:25b1e29d40258aa3",
+        "android_client_info": {
+          "package_name": "com.example.dani.smartblood"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "747890269865-b7hl4o4196evh6tgshu556lprnbp6oq3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.dani.smartblood",
+            "certificate_hash": "4834f5ceddd13b25e86d6f0e4e8f5623bc37a8f7"
+          }
+        },
+        {
+          "client_id": "747890269865-229dmme2uvbp4pse8qaeppof42n0nflb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAiEwYh6i5ZIv3vbF-LCiU5EyK1eJM7nRA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "747890269865-229dmme2uvbp4pse8qaeppof42n0nflb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

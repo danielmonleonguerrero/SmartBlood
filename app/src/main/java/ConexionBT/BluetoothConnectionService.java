@@ -6,7 +6,12 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Looper;
 import android.util.Log;
+import android.widget.Toast;
+
+import com.example.dani.smartblood.RegistrarAnalisis;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,6 +22,7 @@ import java.util.UUID;
 
 public class BluetoothConnectionService {
     private static final String TAG = "BluetoothConnectionServ";
+    String glucosa="";
 
     private static final String appName = "MYAPP";
 
@@ -177,7 +183,6 @@ public class BluetoothConnectionService {
      */
     public synchronized void start() {
         Log.d(TAG, "start");
-
         // Cancel any thread attempting to make a connection
         if (mConnectThread != null) {
             mConnectThread.cancel();
@@ -196,7 +201,6 @@ public class BluetoothConnectionService {
 
     public void startClient(BluetoothDevice device,UUID uuid){
         Log.d(TAG, "startClient: Started.");
-
         //initprogress dialog
         //mProgressDialog = ProgressDialog.show(mContext,"Connecting Bluetooth"
           //      ,"Please Wait...",true);
@@ -212,14 +216,12 @@ public class BluetoothConnectionService {
     private class ConnectedThread extends Thread {
         private final BluetoothSocket mmSocket;
         private final InputStream mmInStream;
-        private final OutputStream mmOutStream;
 
         public ConnectedThread(BluetoothSocket socket) {
             Log.d(TAG, "ConnectedThread: Starting.");
 
             mmSocket = socket;
             InputStream tmpIn = null;
-            OutputStream tmpOut = null;
 
             //dismiss the progressdialog when connection is established
             try{
@@ -228,31 +230,33 @@ public class BluetoothConnectionService {
                 e.printStackTrace();
             }
 
-
             try {
                 tmpIn = mmSocket.getInputStream();
-                tmpOut = mmSocket.getOutputStream();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
             mmInStream = tmpIn;
-            mmOutStream = tmpOut;
         }
 
         public void run(){
             byte[] buffer = new byte[1024];  // buffer store for the stream
-
             int bytes; // bytes returned from read()
 
             // Keep listening to the InputStream until an exception occurs
             while (true) {
                 // Read from the InputStream
                 try {
-
                     bytes = mmInStream.read(buffer);
                     String incomingMessage = new String(buffer, 0, bytes);
                     Log.d(TAG, "InputStream: " + incomingMessage);
+                    glucosa=glucosa+incomingMessage;
+                    Log.d(TAG, "Glucosa: " + glucosa);
+                    if(Integer.valueOf(glucosa)>50){
+                        //Llamar a Registrar Analisis y pasarle el valor de glucosa.
+                        Looper.prepare();
+                        AnalisisBluetooth analisisBluetooth = new AnalisisBluetooth(Integer.valueOf(glucosa));
+                        analisisBluetooth.registrarAnalisis();
+                    }
                     //stuck here
                 } catch (IOException e) {
                     Log.e(TAG, "write: Error reading Input Stream. " + e.getMessage() );
@@ -260,6 +264,7 @@ public class BluetoothConnectionService {
                 }
             }
         }
+
 
 
         /* Call this from the main activity to shutdown the connection */
@@ -270,6 +275,7 @@ public class BluetoothConnectionService {
         }
     }
 
+
     private void connected(BluetoothSocket mmSocket, BluetoothDevice mmDevice) {
         Log.d(TAG, "connected: Starting.");
 
@@ -277,6 +283,5 @@ public class BluetoothConnectionService {
         mConnectedThread = new ConnectedThread(mmSocket);
         mConnectedThread.start();
     }
-
 
 }
