@@ -1,4 +1,4 @@
-package ConexionBT;
+package com.example.dani.smartblood;
 
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
@@ -8,9 +8,11 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Looper;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.dani.smartblood.CalendarActivity;
 import com.example.dani.smartblood.RegistrarAnalisis;
 
 import java.io.IOException;
@@ -20,7 +22,8 @@ import java.util.UUID;
 
 
 
-public class BluetoothConnectionService {
+public class BluetoothConnectionService extends AppCompatActivity{
+    boolean receiveData=true;
     private static final String TAG = "BluetoothConnectionServ";
     String glucosa="";
 
@@ -31,6 +34,7 @@ public class BluetoothConnectionService {
 
     private final BluetoothAdapter mBluetoothAdapter;
     Context mContext;
+    Context cContext;
 
     private AcceptThread mInsecureAcceptThread;
 
@@ -41,8 +45,9 @@ public class BluetoothConnectionService {
 
     private ConnectedThread mConnectedThread;
 
-    public BluetoothConnectionService(Context context) {
+    public BluetoothConnectionService(Context context, Context ccontext) {
         mContext = context;
+        cContext=ccontext;
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         start();
     }
@@ -243,7 +248,8 @@ public class BluetoothConnectionService {
             int bytes; // bytes returned from read()
 
             // Keep listening to the InputStream until an exception occurs
-            while (true) {
+
+            while (receiveData) {
                 // Read from the InputStream
                 try {
                     bytes = mmInStream.read(buffer);
@@ -254,14 +260,20 @@ public class BluetoothConnectionService {
                     if(Integer.valueOf(glucosa)>50){
                         //Llamar a Registrar Analisis y pasarle el valor de glucosa.
                         Looper.prepare();
-                        AnalisisBluetooth analisisBluetooth = new AnalisisBluetooth(Integer.valueOf(glucosa));
-                        analisisBluetooth.registrarAnalisis();
+                        receiveData=false;
                     }
                     //stuck here
                 } catch (IOException e) {
                     Log.e(TAG, "write: Error reading Input Stream. " + e.getMessage() );
                     break;
                 }
+            }
+            try {
+                Intent intent = new Intent(cContext, RegistrarAnalisis.class);
+                intent.putExtra("MedidaSangre", glucosa);
+                cContext.startActivity(intent);
+            } catch (Exception e) {
+                Log.d("SMARTBLOOD", "Error al llamar RegistrarAnalisisActivity " + e);
             }
         }
 

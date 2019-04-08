@@ -1,6 +1,5 @@
 package com.example.dani.smartblood;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,7 +18,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
-import ConexionBT.BluetoothConnection;
 import pl.rafman.scrollcalendar.ScrollCalendar;
 import pl.rafman.scrollcalendar.contract.DateWatcher;
 import pl.rafman.scrollcalendar.contract.MonthScrollListener;
@@ -33,7 +31,7 @@ public class CalendarActivity extends AppCompatActivity {
     private static final String NombreArchivoSalvaguarda="AnalisisSalvaguarda";
     private static final String NombreUsuario="Pepita/Gonzalez/Ruiz"; //El nombre del usuario es el nombre de la coleccion en firebase. Se obtiene en RegistrarUsuarioActivity.
 
-    BluetoothConnection bluetoothConnection = new BluetoothConnection();
+    BluetoothConnection bluetoothConnection = new BluetoothConnection(this);
 
     ScrollCalendar scrollcalendar;
     List<Analisis> ListAnalisis=new ArrayList<>();

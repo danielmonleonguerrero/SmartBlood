@@ -98,9 +98,9 @@ public class ResumenAnalisisActivity extends AppCompatActivity {
     return path;
     }
 
-    public void onNEW(View view) {
+    /*public void onNEW(View view) {
         Intent intent = new Intent(ResumenAnalisisActivity.this, RegistrarAnalisis.class);
         startActivityForResult(intent, VIEW_REGISTER);
-    }
+    }*/
 
 }

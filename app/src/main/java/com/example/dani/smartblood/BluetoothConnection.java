@@ -1,4 +1,4 @@
-package ConexionBT;
+package com.example.dani.smartblood;
 
 
 import android.Manifest;
@@ -9,15 +9,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-
-import com.example.dani.smartblood.CalendarActivity;
-import com.example.dani.smartblood.RegistrarAnalisis;
 
 import java.util.Set;
 import java.util.UUID;
@@ -33,6 +26,7 @@ public class BluetoothConnection extends AppCompatActivity{
     private static final UUID MY_UUID_INSECURE =
             UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     BluetoothDevice mBTDevice;
+    Context cContext;
 
     // Create a BroadcastReceiver for ACTION_FOUND
     private final BroadcastReceiver mBroadcastReceiver1 = new BroadcastReceiver() {
@@ -116,7 +110,7 @@ public class BluetoothConnection extends AppCompatActivity{
                 if(device.getAddress().equals("00:14:03:05:F3:AA")) {
                     Log.d("MyBlueT", "SmartBlood encontrado");
                     mBluetoothAdapter.cancelDiscovery();
-                    mBluetoothConnection = new BluetoothConnectionService(BluetoothConnection.this);
+                    mBluetoothConnection = new BluetoothConnectionService(BluetoothConnection.this, cContext);
                     mBluetoothConnection.startClient(device,MY_UUID_INSECURE);
                 }
             }
@@ -154,10 +148,11 @@ public class BluetoothConnection extends AppCompatActivity{
         }
     };
 
-    public BluetoothConnection() {
+    public BluetoothConnection(Context context) {
         //Broadcasts when bond state changes (ie:pairing)
         //IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
         //registerReceiver(mBroadcastReceiver4, filter);
+        cContext=context;
     }
 
     public void startConnection() {
@@ -195,7 +190,7 @@ public class BluetoothConnection extends AppCompatActivity{
                 if(device.getAddress().equals("00:14:03:05:F3:AA")) {
                     Log.d("MyBlueT", "SmartBlood emparejado anteriormente encontrado");
                     mBluetoothAdapter.cancelDiscovery();
-                    mBluetoothConnection = new BluetoothConnectionService(BluetoothConnection.this);
+                    mBluetoothConnection = new BluetoothConnectionService(BluetoothConnection.this,cContext);
                     mBluetoothConnection.startClient(device,MY_UUID_INSECURE);
                     alreadypaired=true;
                 }

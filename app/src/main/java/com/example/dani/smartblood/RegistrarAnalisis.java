@@ -9,8 +9,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
-import ConexionBT.AnalisisBluetooth;
+
 
 import com.bumptech.glide.Glide;
 
@@ -23,6 +22,7 @@ public class RegistrarAnalisis extends AppCompatActivity {
     private TextView nivelGlucosaView;
     private ImageView bloodropView;
     private RadioGroup nota1_rdgroup, nota2_rdgroup;
+    private String glucosa;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +34,8 @@ public class RegistrarAnalisis extends AppCompatActivity {
         bloodropView=findViewById(R.id.bloodropView);
         Glide.with(RegistrarAnalisis.this).load(PathImageGenerator(Integer.valueOf(nivelGlucosaView.getText().toString()))).into(bloodropView);
         Intent intent = getIntent();
+        glucosa=intent.getStringExtra("MedidaSangre");
+        nivelGlucosaView.setText(glucosa);
     }
 
     public void onRegistrar(View view) {
@@ -51,7 +53,7 @@ public class RegistrarAnalisis extends AppCompatActivity {
 
         Analisis analisis = new Analisis(new Date((currentTime.getYear()+1900), currentTime.getMonth(), currentTime.getDate(),
                 currentTime.getHours(), currentTime.getMinutes()),
-                70, nota1_esc_rdbutton.getText().toString(), nota2_esc_rdbutton.getText().toString());
+                Integer.valueOf(glucosa), nota1_esc_rdbutton.getText().toString(), nota2_esc_rdbutton.getText().toString());
 
         Intent intent = new Intent(RegistrarAnalisis.this, CalendarActivity.class);
         intent.putExtra("NewAnalisis", true);
