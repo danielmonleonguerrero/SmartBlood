@@ -43,17 +43,21 @@ public class ResumenAnalisisActivity extends AppCompatActivity {
         mesView = findViewById(R.id.mesView);
         anyoView = findViewById(R.id.anyoView);
         analisis_list_view = findViewById(R.id.analisis_list_view);
-        analisis_list_view.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new Adapter();
-        analisis_list_view.setAdapter(adapter);
 
         Intent intent = getIntent();
         diaAnalisis =(DiaAnalisis)intent.getSerializableExtra("diaAnalisis");
         ListAnalisis=diaAnalisis.getArrayAnalisis();
+
+        diaView.setText(String.valueOf(intent.getIntExtra("Dia",-1)));
+        mesView.setText(MesesDelAnyo[intent.getIntExtra("Mes",-1)]);
+        anyoView.setText(String.valueOf(intent.getIntExtra("Anyo",-1)));
+
         //TODO: Ordenar la lista por orden creciente en la fecha
-        diaView.setText(Integer.toString(ListAnalisis.get(0).getTiempo().getDate()));
-        mesView.setText(MesesDelAnyo[ListAnalisis.get(0).getTiempo().getMonth()]);
-        anyoView.setText(Integer.toString(ListAnalisis.get(0).getTiempo().getYear()));
+        if(ListAnalisis.size()>0){
+            analisis_list_view.setLayoutManager(new LinearLayoutManager(this));
+            adapter = new Adapter();
+            analisis_list_view.setAdapter(adapter);
+        }
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

@@ -1,4 +1,4 @@
-package com.example.dani.smartblood;
+package ConexionBT;
 
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
@@ -50,6 +50,7 @@ public class BluetoothConnectionService extends AppCompatActivity{
         cContext=ccontext;
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         start();
+        glucosa="";
     }
 
 

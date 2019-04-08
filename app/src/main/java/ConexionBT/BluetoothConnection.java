@@ -1,4 +1,4 @@
-package com.example.dani.smartblood;
+package ConexionBT;
 
 
 import android.Manifest;

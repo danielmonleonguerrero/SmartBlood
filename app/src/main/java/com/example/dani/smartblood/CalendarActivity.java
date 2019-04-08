@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
+import ConexionBT.BluetoothConnection;
 import pl.rafman.scrollcalendar.ScrollCalendar;
 import pl.rafman.scrollcalendar.contract.DateWatcher;
 import pl.rafman.scrollcalendar.contract.MonthScrollListener;
@@ -73,8 +74,8 @@ public class CalendarActivity extends AppCompatActivity {
             public void onCalendarDayClicked(int year, int month, int day) {
                 //NO ES PARTE DE ON CLIC. ESTA AQUI DE FORMA PROVISIONAL. ESTO SE EJECUTA EN REGISTRARANALISISACTIVITY
                 //Se crea un nuevo analisis
-                Analisis newAnalisis = new Analisis(new Date (year, month, day, 12, 40),lvlGlucosa,"Antes de comer", "Poco ejercicio");
-                ListAnalisis.add(newAnalisis); //Se añade un nuevo objeto analisis y se rellena
+                //Analisis newAnalisis = new Analisis(new Date (year, month, day, 12, 40),lvlGlucosa,"Antes de comer", "Poco ejercicio");
+                //ListAnalisis.add(newAnalisis); //Se añade un nuevo objeto analisis y se rellena
                 scrollcalendar.refresh();
                 //-------ON CLIC REAL-------//
                 //Se rellena una lista con los analisis del dia seleccionada
@@ -91,6 +92,9 @@ public class CalendarActivity extends AppCompatActivity {
                 //Se crea una intent y se llama a la actividad ResumenAnalisisActivity
                 Intent intent = new Intent(CalendarActivity.this, ResumenAnalisisActivity.class);
                 intent.putExtra("diaAnalisis", diaAnalisis);
+                intent.putExtra("Anyo", year);
+                intent.putExtra("Mes", month);
+                intent.putExtra("Dia", day);
                 startActivityForResult(intent, VIEW_ANALISIS);
             }
 
