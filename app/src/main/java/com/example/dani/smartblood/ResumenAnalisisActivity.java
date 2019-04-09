@@ -98,8 +98,9 @@ public class ResumenAnalisisActivity extends AppCompatActivity {
     }
 
     private String PathImageGenerator(int nivelGlucosa) {
-    String path ="file:///android_asset/bloodrop" + String.valueOf(nivelGlucosa) + ".png";
-    return path;
+        //String path ="file:///android_asset/bloodrop" + String.valueOf(nivelGlucosa) + ".png"
+        String path ="file:///android_asset/bloodrop100.png";
+        return path;
     }
 
     /*public void onNEW(View view) {

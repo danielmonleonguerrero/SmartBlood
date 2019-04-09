@@ -72,10 +72,6 @@ public class CalendarActivity extends AppCompatActivity {
         scrollcalendar.setOnDateClickListener(new OnDateClickListener() {
             @Override
             public void onCalendarDayClicked(int year, int month, int day) {
-                //NO ES PARTE DE ON CLIC. ESTA AQUI DE FORMA PROVISIONAL. ESTO SE EJECUTA EN REGISTRARANALISISACTIVITY
-                //Se crea un nuevo analisis
-                //Analisis newAnalisis = new Analisis(new Date (year, month, day, 12, 40),lvlGlucosa,"Antes de comer", "Poco ejercicio");
-                //ListAnalisis.add(newAnalisis); //Se añade un nuevo objeto analisis y se rellena
                 scrollcalendar.refresh();
                 //-------ON CLIC REAL-------//
                 //Se rellena una lista con los analisis del dia seleccionada

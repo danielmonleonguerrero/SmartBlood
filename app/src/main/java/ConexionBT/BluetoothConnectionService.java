@@ -34,7 +34,7 @@ public class BluetoothConnectionService extends AppCompatActivity{
 
     private final BluetoothAdapter mBluetoothAdapter;
     Context mContext;
-    Context cContext;
+    Context cContext; //context para hacer startActivity una vez recibido un dato.
 
     private AcceptThread mInsecureAcceptThread;
 
@@ -51,8 +51,8 @@ public class BluetoothConnectionService extends AppCompatActivity{
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         start();
         glucosa="";
+        receiveData=true; //Se habilita leer otra muestra desde arduino
     }
-
 
     /**
      * This thread runs while listening for incoming connections. It behaves
@@ -66,7 +66,6 @@ public class BluetoothConnectionService extends AppCompatActivity{
 
         public AcceptThread(){
             BluetoothServerSocket tmp = null;
-
             // Create a new listening server socket
             try{
                 tmp = mBluetoothAdapter.listenUsingInsecureRfcommWithServiceRecord(appName, MY_UUID_INSECURE);
@@ -75,7 +74,6 @@ public class BluetoothConnectionService extends AppCompatActivity{
             }catch (IOException e){
                 Log.e(TAG, "AcceptThread: IOException: " + e.getMessage() );
             }
-
             mmServerSocket = tmp;
         }
 
@@ -181,8 +179,6 @@ public class BluetoothConnectionService extends AppCompatActivity{
         }
     }
 
-
-
     /**
      * Start the chat service. Specifically start AcceptThread to begin a
      * session in listening (server) mode. Called by the Activity onResume()
@@ -193,6 +189,10 @@ public class BluetoothConnectionService extends AppCompatActivity{
         if (mConnectThread != null) {
             mConnectThread.cancel();
             mConnectThread = null;
+        }
+        if (mConnectedThread != null) {
+            mConnectedThread.cancel();
+            mConnectedThread = null;
         }
         if (mInsecureAcceptThread == null) {
             mInsecureAcceptThread = new AcceptThread();
@@ -219,13 +219,14 @@ public class BluetoothConnectionService extends AppCompatActivity{
      Finally the ConnectedThread which is responsible for maintaining the BTConnection, Sending the data, and
      receiving incoming data through input/output streams respectively.
      **/
+
     private class ConnectedThread extends Thread {
         private final BluetoothSocket mmSocket;
         private final InputStream mmInStream;
 
         public ConnectedThread(BluetoothSocket socket) {
             Log.d(TAG, "ConnectedThread: Starting.");
-
+            glucosa="";
             mmSocket = socket;
             InputStream tmpIn = null;
 
@@ -250,7 +251,7 @@ public class BluetoothConnectionService extends AppCompatActivity{
 
             // Keep listening to the InputStream until an exception occurs
 
-            while (receiveData) {
+            while (true) {
                 // Read from the InputStream
                 try {
                     bytes = mmInStream.read(buffer);
@@ -259,22 +260,22 @@ public class BluetoothConnectionService extends AppCompatActivity{
                     glucosa=glucosa+incomingMessage;
                     Log.d(TAG, "Glucosa: " + glucosa);
                     if(Integer.valueOf(glucosa)>50){
-                        //Llamar a Registrar Analisis y pasarle el valor de glucosa.
-                        Looper.prepare();
+                        //Looper.prepare();
                         receiveData=false;
+                        try {
+                            Intent intent = new Intent(cContext, RegistrarAnalisis.class);
+                            intent.putExtra("MedidaSangre", glucosa);
+                            cContext.startActivity(intent);
+                            glucosa="";
+                        } catch (Exception e) {
+                            Log.e(TAG, "Error al llamar RegistrarAnalisisActivity " + e);
+                        }
                     }
                     //stuck here
                 } catch (IOException e) {
-                    Log.e(TAG, "write: Error reading Input Stream. " + e.getMessage() );
+                    Log.e(TAG, "write: Error reading Input Stream. " + e.getMessage());
                     break;
                 }
-            }
-            try {
-                Intent intent = new Intent(cContext, RegistrarAnalisis.class);
-                intent.putExtra("MedidaSangre", glucosa);
-                cContext.startActivity(intent);
-            } catch (Exception e) {
-                Log.d("SMARTBLOOD", "Error al llamar RegistrarAnalisisActivity " + e);
             }
         }
 

@@ -21,6 +21,7 @@ public class BluetoothConnection extends AppCompatActivity{
 
     private static final String TAG = "MainActivity";
     boolean alreadypaired=false;
+    BluetoothDevice device;
     BluetoothAdapter mBluetoothAdapter;
     BluetoothConnectionService mBluetoothConnection;
     private static final UUID MY_UUID_INSECURE =
@@ -117,8 +118,6 @@ public class BluetoothConnection extends AppCompatActivity{
         }
     };
 
-
-
     /**
      * Broadcast Receiver that detects bond state changes (Pairing status changes)
      */
@@ -156,15 +155,20 @@ public class BluetoothConnection extends AppCompatActivity{
     }
 
     public void startConnection() {
-
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         Log.d(TAG, "onClick: enabling/disabling bluetooth.");
         EnableBT();
         if(mBluetoothAdapter.isEnabled()){
             Log.d("MyBlueT", "Bluetooth encendido, se procede a conectarse a un dispositivo");
-            searchpaireddevices();
-            if(!alreadypaired) discoverDevices();
+            if(mBluetoothConnection!=null){
+                mBluetoothConnection = new BluetoothConnectionService(BluetoothConnection.this,cContext);
+                mBluetoothConnection.startClient(device,MY_UUID_INSECURE);
+            }
+            else{
+                searchpaireddevices();
+                if(!alreadypaired) discoverDevices();
+            }
         }
     }
 
@@ -186,9 +190,10 @@ public class BluetoothConnection extends AppCompatActivity{
         Log.d("MyBlueT", "Buscando dispositivos emparejados");
         if(pairedDevices.size()>0){
             Log.d("MyBlueT", "Existen dispositivos emparejados");
-            for(BluetoothDevice device : pairedDevices){
-                if(device.getAddress().equals("00:14:03:05:F3:AA")) {
+            for(BluetoothDevice deviceb : pairedDevices){
+                if(deviceb.getAddress().equals("00:14:03:05:F3:AA")) {
                     Log.d("MyBlueT", "SmartBlood emparejado anteriormente encontrado");
+                    device=deviceb;
                     mBluetoothAdapter.cancelDiscovery();
                     mBluetoothConnection = new BluetoothConnectionService(BluetoothConnection.this,cContext);
                     mBluetoothConnection.startClient(device,MY_UUID_INSECURE);
