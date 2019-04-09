@@ -87,7 +87,8 @@ public class ResumenAnalisisActivity extends AppCompatActivity {
             Analisis analisisHolder = ListAnalisis.get(position);
             holder.nivelGlucosaView.setText( Integer.toString(analisisHolder.getNivelGlucosa()));
             holder.horaView.setText(Integer.toString(analisisHolder.getTiempo().getHours()));
-            holder.minView.setText(Integer.toString(analisisHolder.getTiempo().getMinutes()));
+            if(analisisHolder.getTiempo().getMinutes()<10) holder.minView.setText("0"+Integer.toString(analisisHolder.getTiempo().getMinutes()));
+            else  holder.minView.setText(Integer.toString(analisisHolder.getTiempo().getMinutes()));
             holder.nota1.setText(analisisHolder.getNota1());
             holder.nota2.setText(analisisHolder.getNota2());
             Glide.with(ResumenAnalisisActivity.this).load(PathImageGenerator(analisisHolder.getNivelGlucosa())).into(holder.bloodropView);

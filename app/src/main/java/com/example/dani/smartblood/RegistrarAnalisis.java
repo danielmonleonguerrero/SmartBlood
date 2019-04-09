@@ -32,10 +32,10 @@ public class RegistrarAnalisis extends AppCompatActivity {
         nota1_rdgroup=findViewById(R.id.nota1_rdgroup);
         nota2_rdgroup=findViewById(R.id.nota2_rdgroup);
         bloodropView=findViewById(R.id.bloodropView);
-        Glide.with(RegistrarAnalisis.this).load(PathImageGenerator(Integer.valueOf(nivelGlucosaView.getText().toString()))).into(bloodropView);
         Intent intent = getIntent();
         glucosa=intent.getStringExtra("MedidaSangre");
         nivelGlucosaView.setText(glucosa);
+        Glide.with(RegistrarAnalisis.this).load(PathImageGenerator(Integer.valueOf(nivelGlucosaView.getText().toString()))).into(bloodropView);
     }
 
     public void onRegistrar(View view) {
@@ -63,7 +63,8 @@ public class RegistrarAnalisis extends AppCompatActivity {
     }
 
     private String PathImageGenerator(int nivelGlucosa) {
-        String path ="file:///android_asset/bloodrop" + String.valueOf(nivelGlucosa) + ".png";
+        //String path ="file:///android_asset/bloodrop" + String.valueOf(nivelGlucosa) + ".png";
+        String path ="file:///android_asset/bloodrop70.png";
         return path;
     }
 }

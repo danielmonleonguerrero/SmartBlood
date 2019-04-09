@@ -7,23 +7,18 @@ import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.dani.smartblood.CalendarActivity;
 import com.example.dani.smartblood.RegistrarAnalisis;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.UUID;
 
 
-
 public class BluetoothConnectionService extends AppCompatActivity{
-    boolean receiveData=true;
     private static final String TAG = "BluetoothConnectionServ";
     String glucosa="";
 
@@ -51,7 +46,6 @@ public class BluetoothConnectionService extends AppCompatActivity{
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         start();
         glucosa="";
-        receiveData=true; //Se habilita leer otra muestra desde arduino
     }
 
     /**
@@ -248,9 +242,7 @@ public class BluetoothConnectionService extends AppCompatActivity{
         public void run(){
             byte[] buffer = new byte[1024];  // buffer store for the stream
             int bytes; // bytes returned from read()
-
             // Keep listening to the InputStream until an exception occurs
-
             while (true) {
                 // Read from the InputStream
                 try {
@@ -260,15 +252,13 @@ public class BluetoothConnectionService extends AppCompatActivity{
                     glucosa=glucosa+incomingMessage;
                     Log.d(TAG, "Glucosa: " + glucosa);
                     if(Integer.valueOf(glucosa)>50){
-                        //Looper.prepare();
-                        receiveData=false;
                         try {
                             Intent intent = new Intent(cContext, RegistrarAnalisis.class);
                             intent.putExtra("MedidaSangre", glucosa);
                             cContext.startActivity(intent);
                             glucosa="";
                         } catch (Exception e) {
-                            Log.e(TAG, "Error al llamar RegistrarAnalisisActivity " + e);
+                            Log.e(TAG, "Error en startActivity Registrar activity. Error: " + e);
                         }
                     }
                     //stuck here

@@ -37,8 +37,6 @@ public class CalendarActivity extends AppCompatActivity {
     ScrollCalendar scrollcalendar;
     List<Analisis> ListAnalisis=new ArrayList<>();
 
-    int lvlGlucosa =100;
-
     //-------------------METODOS ONCREATE Y ONSTOP-------------------//
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +104,13 @@ public class CalendarActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        GuardarDatosAnalisis();
+    }
+
     @Override
     protected void onStop() {
         super.onStop();
@@ -123,7 +128,6 @@ public class CalendarActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.ConexionBT:
-                Toast.makeText(this, "Conexión Bluetooth", Toast.LENGTH_SHORT).show();
                 bluetoothConnection.startConnection();
                 return true;
             case R.id.DesconexionBT:
