@@ -208,13 +208,19 @@ public class CalendarActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch(requestCode){
             case VIEW_ANALISIS:
-                for(int i=0; i<data.getIntExtra("cantidadborrado",-1); i++){
+                DiaAnalisis diaAnalisisBorrados =(DiaAnalisis)data.getSerializableExtra("ListaAnalisisBorrados");
+                for(int i=0; i<diaAnalisisBorrados.getArrayAnalisis().size(); i++){
                     for(int j=0; j<ListAnalisis.size(); j++){
-                        if(ListAnalisis.get(i)==ListAnalisis.get(j)){
+                        if(ListAnalisis.get(j).getTiempo().equals(diaAnalisisBorrados.getArrayAnalisis().get(i).getTiempo())
+                        && ListAnalisis.get(j).getNivelGlucosa() == diaAnalisisBorrados.getArrayAnalisis().get(i).getNivelGlucosa()
+                                && ListAnalisis.get(j).getNota2().equals(diaAnalisisBorrados.getArrayAnalisis().get(i).getNota2())
+                                && ListAnalisis.get(j).getNota1().equals(diaAnalisisBorrados.getArrayAnalisis().get(i).getNota1())){
                             ListAnalisis.remove(j);
+                            Log.d("SMARTBLOOD", "se ha borrado un analisis");
                         }
                     }
                 }
+                scrollcalendar.refresh();
                 break;
             default:
                 super.onActivityResult(requestCode, resultCode, data);

@@ -37,10 +37,13 @@ public class ResumenAnalisisActivity extends AppCompatActivity {
     private RecyclerView analisis_list_view;
     DiaAnalisis diaAnalisis;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resumen_analisis);
+
+        ListaAnalisisBorrados.clear();
 
         diaView = findViewById(R.id.diaView);
         mesView = findViewById(R.id.mesView);
@@ -68,12 +71,11 @@ public class ResumenAnalisisActivity extends AppCompatActivity {
     public void onBackPressed() {
         //super.onBackPressed();
         Intent data = new Intent();
-        data.putExtra("cantidadborrado", ListaAnalisisBorrados.size());
-        for(int i=0; i<ListaAnalisisBorrados.size(); i++){
-            data.putExtra(String.valueOf(i), ListaAnalisisBorrados.get(i));
-        }
+        //Se encapsua el List en un objeto del tipo DiaAnalisis para poder pasarlo a otra actividad como extra en el intent.
+        DiaAnalisis diaAnalisisBorrados =new DiaAnalisis(new ArrayList<Analisis>());
+        diaAnalisisBorrados.setArrayAnalisis(ListaAnalisisBorrados);
+        data.putExtra("ListaAnalisisBorrados", diaAnalisisBorrados);
         setResult(RESULT_OK, data);
-
         finish();
     }
 
@@ -117,6 +119,7 @@ public class ResumenAnalisisActivity extends AppCompatActivity {
         ListaAnalisisBorrados.add(ListAnalisis.get(position));
         ListAnalisis.remove(position);
         adapter.notifyItemRemoved(position);
+        Log.d("SMARTBLOOD", "SIZE BORRADOS: " + String.valueOf(ListaAnalisisBorrados.size()));
     }
 
     class Adapter extends RecyclerView.Adapter<ViewHolder>{
@@ -149,9 +152,5 @@ public class ResumenAnalisisActivity extends AppCompatActivity {
         return path;
     }
 
-    /*public void onNEW(View view) {
-        Intent intent = new Intent(ResumenAnalisisActivity.this, RegistrarAnalisis.class);
-        startActivityForResult(intent, VIEW_REGISTER);
-    }*/
 
 }
