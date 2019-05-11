@@ -21,7 +21,7 @@ import java.util.UUID;
 public class BluetoothConnectionService extends AppCompatActivity{
     private static final String TAG = "BluetoothConnectionServ";
     String glucosa="";
-
+    private boolean closeconnection=false;
     private static final String appName = "MYAPP";
 
     private static final UUID MY_UUID_INSECURE =
@@ -47,6 +47,12 @@ public class BluetoothConnectionService extends AppCompatActivity{
         start();
         glucosa="";
     }
+
+    public void setCloseconnection(boolean closeconnection) {
+        this.closeconnection = closeconnection;
+        Log.e(TAG, "close connection set to true");
+    }
+
 
     /**
      * This thread runs while listening for incoming connections. It behaves
@@ -215,8 +221,10 @@ public class BluetoothConnectionService extends AppCompatActivity{
      **/
 
     private class ConnectedThread extends Thread {
-        private final BluetoothSocket mmSocket;
-        private final InputStream mmInStream;
+        //private final BluetoothSocket mmSocket;
+        private BluetoothSocket mmSocket;
+        //private final InputStream mmInStream;
+        private InputStream mmInStream;
 
         public ConnectedThread(BluetoothSocket socket) {
             Log.d(TAG, "ConnectedThread: Starting.");
@@ -244,6 +252,10 @@ public class BluetoothConnectionService extends AppCompatActivity{
             int bytes; // bytes returned from read()
             // Keep listening to the InputStream until an exception occurs
             while (true) {
+                Log.e(TAG, "close connection: " + closeconnection);
+                if(closeconnection){
+                    cancel();
+                }
                 // Read from the InputStream
                 try {
                     bytes = mmInStream.read(buffer);
@@ -269,13 +281,32 @@ public class BluetoothConnectionService extends AppCompatActivity{
             }
         }
 
-
-
         /* Call this from the main activity to shutdown the connection */
         public void cancel() {
-            try {
-                mmSocket.close();
-            } catch (IOException e) { }
+            Log.d(TAG, "cancel method: shutdown connection");
+            if(mmInStream!=null){
+                try {
+                    mmInStream.close();
+                    Log.d(TAG, "cancel method: input stream closed");
+
+                } catch (Exception e) {
+                    Log.e(TAG, "cancel method: Error al cerrar input stream. Error: " +e.getMessage());
+                }
+                mmInStream=null;
+                Log.d(TAG, "cancel method: input stream is now null");
+
+            }
+
+            if(mmSocket!=null){
+                try {
+                    mmSocket.close();
+                    Log.d(TAG, "cancel method: socket closed");
+
+                } catch (IOException e) {
+                    Log.e(TAG, "cancel method: Error closing socket. Error: " +e.getMessage());
+                }
+                mmSocket=null;
+            }
         }
     }
 

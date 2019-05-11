@@ -1,7 +1,9 @@
 package com.example.dani.smartblood;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,6 +26,7 @@ public class ResumenAnalisisActivity extends AppCompatActivity {
     private TextView diaView;
     private TextView mesView;
     private TextView anyoView;
+    List<Analisis> ListaAnalisisBorrados=new ArrayList<>();
 
     String[] MesesDelAnyo = new String[]{
      "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Setiembre", "Octubre", "Noviembre", "Diciembre"
@@ -60,6 +63,21 @@ public class ResumenAnalisisActivity extends AppCompatActivity {
         }
     }
 
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        Intent data = new Intent();
+        data.putExtra("cantidadborrado", ListaAnalisisBorrados.size());
+        for(int i=0; i<ListaAnalisisBorrados.size(); i++){
+            data.putExtra(String.valueOf(i), ListaAnalisisBorrados.get(i));
+        }
+        setResult(RESULT_OK, data);
+
+        finish();
+    }
+
+
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView nivelGlucosaView, horaView, minView, nota1, nota2;
         private ImageView bloodropView;
@@ -71,7 +89,34 @@ public class ResumenAnalisisActivity extends AppCompatActivity {
             nota1=itemView.findViewById(R.id.nota1View);
             nota2=itemView.findViewById(R.id.nota2View);
             bloodropView=itemView.findViewById(R.id.bloodropView);
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    onLongClickItem(getAdapterPosition());
+                    return true;
+                }
+            });
         }
+    }
+
+    public void onLongClickItem(final int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("¿Quieres borrar este analisis?");
+        builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                borrarAnalisis(position);
+            }
+        });
+        builder.setNegativeButton(android.R.string.cancel, null);
+        builder.create().show();
+    }
+
+    //Metodo llamado por long click. Borra el analisis especificado
+    private void borrarAnalisis(int position) {
+        ListaAnalisisBorrados.add(ListAnalisis.get(position));
+        ListAnalisis.remove(position);
+        adapter.notifyItemRemoved(position);
     }
 
     class Adapter extends RecyclerView.Adapter<ViewHolder>{

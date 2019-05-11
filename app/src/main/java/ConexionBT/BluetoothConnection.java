@@ -28,6 +28,7 @@ public class BluetoothConnection extends AppCompatActivity{
             UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     BluetoothDevice mBTDevice;
     Context cContext;
+    boolean isConnected =false;
 
     // Create a BroadcastReceiver for ACTION_FOUND
     private final BroadcastReceiver mBroadcastReceiver1 = new BroadcastReceiver() {
@@ -192,6 +193,7 @@ public class BluetoothConnection extends AppCompatActivity{
             Log.d("MyBlueT", "Existen dispositivos emparejados");
             for(BluetoothDevice deviceb : pairedDevices){
                 if(deviceb.getAddress().equals("00:14:03:05:F3:AA")) {
+                    isConnected=true;
                     Log.d("MyBlueT", "SmartBlood emparejado anteriormente encontrado");
                     device=deviceb;
                     mBluetoothAdapter.cancelDiscovery();
@@ -204,11 +206,15 @@ public class BluetoothConnection extends AppCompatActivity{
     }
 
     public void disableBT() {
-        if(mBluetoothAdapter.isEnabled()){
+        //first close input stream first, then the socket.
+        if(isConnected){
+            mBluetoothConnection.setCloseconnection(true);
+        }
+        /*if(mBluetoothAdapter.isEnabled()){
             mBluetoothAdapter.disable();
             IntentFilter BTIntent = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
             registerReceiver(mBroadcastReceiver1, BTIntent);
-        }
+        }*/
     }
 
 
@@ -219,7 +225,7 @@ public class BluetoothConnection extends AppCompatActivity{
         if(!mBluetoothAdapter.isEnabled()){
             Log.d("MyBlueT", "EnableBT: Se pide al usuario encender BT");
             Intent enableBTIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivity(enableBTIntent);
+            startActivityForResult(enableBTIntent, 10);
             IntentFilter BTIntent = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
             registerReceiver(mBroadcastReceiver1, BTIntent);
         }

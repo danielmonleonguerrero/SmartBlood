@@ -30,7 +30,6 @@ public class CalendarActivity extends AppCompatActivity {
 
     private static final int VIEW_ANALISIS=1;
     private static final String NombreArchivoSalvaguarda="AnalisisSalvaguarda";
-    private static final String NombreUsuario="Pepita/Gonzalez/Ruiz"; //El nombre del usuario es el nombre de la coleccion en firebase. Se obtiene en RegistrarUsuarioActivity.
 
     BluetoothConnection bluetoothConnection = new BluetoothConnection(this);
 
@@ -99,7 +98,7 @@ public class CalendarActivity extends AppCompatActivity {
             @State
             @Override
             public int getStateForDate(int year, int month, int day) {
-                if(isMarcado(year,month,day)) return CalendarDay.TODAY;
+                if(estaMarcado(year,month,day)) return CalendarDay.TODAY;
                 else return CalendarDay.DEFAULT;
             }
         });
@@ -133,9 +132,7 @@ public class CalendarActivity extends AppCompatActivity {
             case R.id.DesconexionBT:
                 Toast.makeText(this, "Desconexión Bluetooth", Toast.LENGTH_SHORT).show();
                 bluetoothConnection.disableBT();
-                return true;
-            case R.id.CodigoQR:
-                Toast.makeText(this, "Codigo QR", Toast.LENGTH_SHORT).show();
+                // falta borrar el objeto bluetooth connection y bluetooth connection service
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -144,7 +141,7 @@ public class CalendarActivity extends AppCompatActivity {
     //----------------------------------------------------------------//
 
     //Mira si X dia necesita estar marcado con color rojo.
-    private boolean isMarcado(int year, int month, int day) {
+    private boolean estaMarcado(int year, int month, int day) {
         Log.e("SMARTBLOOD", Integer.toString(ListAnalisis.size()));
         if(ListAnalisis.size()>0){
             for(int i=0; i<ListAnalisis.size(); i++){
@@ -207,5 +204,21 @@ public class CalendarActivity extends AppCompatActivity {
     //----------------------------------------------------------------//
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch(requestCode){
+            case VIEW_ANALISIS:
+                for(int i=0; i<data.getIntExtra("cantidadborrado",-1); i++){
+                    for(int j=0; j<ListAnalisis.size(); j++){
+                        if(ListAnalisis.get(i)==ListAnalisis.get(j)){
+                            ListAnalisis.remove(j);
+                        }
+                    }
+                }
+                break;
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
 
 }
