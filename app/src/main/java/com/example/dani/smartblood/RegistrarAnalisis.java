@@ -35,7 +35,7 @@ public class RegistrarAnalisis extends AppCompatActivity {
         Intent intent = getIntent();
         glucosa=intent.getStringExtra("MedidaSangre");
         nivelGlucosaView.setText(glucosa);
-        Glide.with(RegistrarAnalisis.this).load(PathImageGenerator(Integer.valueOf(nivelGlucosaView.getText().toString()))).into(bloodropView);
+        Glide.with(RegistrarAnalisis.this).load(PathImageGenerator()).into(bloodropView);
     }
 
     public void onRegistrar(View view) {
@@ -62,9 +62,8 @@ public class RegistrarAnalisis extends AppCompatActivity {
         startActivityForResult(intent, REGISTER_ANALISIS);
     }
 
-    private String PathImageGenerator(int nivelGlucosa) {
-        //String path ="file:///android_asset/bloodrop" + String.valueOf(nivelGlucosa) + ".png";
-        String path ="file:///android_asset/bloodrop70.png";
+    private String PathImageGenerator() {
+        String path ="file:///android_asset/bloodrop100.png";
         return path;
     }
 }

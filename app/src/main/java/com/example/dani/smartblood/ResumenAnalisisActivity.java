@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -64,6 +65,8 @@ public class ResumenAnalisisActivity extends AppCompatActivity {
             adapter = new Adapter();
             analisis_list_view.setAdapter(adapter);
         }
+
+        if(ListAnalisis.size()==0) Toast.makeText(this, "No hay analisis registrados para esta fecha", Toast.LENGTH_SHORT).show();
     }
 
 

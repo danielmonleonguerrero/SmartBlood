@@ -22,22 +22,6 @@ public class Analisis implements Serializable {
         return tiempo;
     }
 
-    public void setTiempo(Date tiempo) {
-        this.tiempo = tiempo;
-    }
-
-    public void setNivelGlucosa(int nivelGlucosa) {
-        this.nivelGlucosa = nivelGlucosa;
-    }
-
-    public void setNota1(String nota1) {
-        this.nota1 = nota1;
-    }
-
-    public void setNota2(String nota2) {
-        this.nota2 = nota2;
-    }
-
 
     public Analisis(Date tiempo, int nivelGlucosa, String nota1, String nota2) {
         this.tiempo = tiempo;
