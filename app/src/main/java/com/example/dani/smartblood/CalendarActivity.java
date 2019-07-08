@@ -325,6 +325,7 @@ public class CalendarActivity extends AppCompatActivity {
         if (connection == null) {
             boolean isPaired = connectToPreviouslyPairedDevice();
             if (!isPaired) {
+                Toast.makeText(this, "Empareja manualmente el glucómetro desde los ajustes del teléfono", Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "No hay dispositivos emparejados: buscando nuevos...");
                 if (!adapter.isDiscovering()) {
                     adapter.startDiscovery();
@@ -338,6 +339,7 @@ public class CalendarActivity extends AppCompatActivity {
     private void createBluetoothConnection() {
         adapter.cancelDiscovery();
         connection = new BluetoothConnectionService(this);
+        Toast.makeText(this, "Comunicación inalámbrica establecida!", Toast.LENGTH_SHORT).show();
         connection.startClient(device, MY_UUID_INSECURE);
     }
 
